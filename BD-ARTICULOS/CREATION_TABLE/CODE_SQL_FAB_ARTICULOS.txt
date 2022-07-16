@@ -1,0 +1,55 @@
+TABLA CREACION
+
+CREATE TABLE ARTICULOS
+(Numero_Pedido INT(10) PRIMARY KEY,Id_Cuerpo INT(10),Descripcion VARCHAR(50));
+
+CREATE TABLE ARTICULOS_FABRICA
+(Numero_Pedido INT(10),Id_Fabrica INT(10),Descripcion VARCHAR(50));
+
+CREATE TABLE CABECERA
+(Id_Cabecera INT(10) PRIMARY KEY,Direccion TEXT,Fecha_Pedido DATE);
+
+CREATE TABLE CLIENTE
+(Id_Cliente INT(10) PRIMARY KEY,Direccion TEXT,Limite_Credito INT(5),Saldo DOUBLE,Descuento INT(2),Nombre VARCHAR(50));
+
+CREATE TABLE CUERPO
+(Id_Cuerpo INT(10) PRIMARY KEY,Cantidad INT(6));
+
+CREATE TABLE FABRICA
+(Id_Fabrica INT(10) PRIMARY KEY,Telefono BIGINT(13));
+
+CREATE TABLE PEDIDOS
+(Id_Pedidos INT(10) PRIMARY KEY,Id_Cabecera INT(10),Id_Cuerpo INT(10),Id_Cliente INT(10));
+
+
+INDICES
+
+ARTICULOS_FABRICA
+CREATE UNIQUE INDEX Number ON articulos_fabrica(Numero_Pedido);
+CREATE UNIQUE INDEX Id ON articulos_fabrica(Id_Fabrica);
+CREATE INDEX Indice1 ON articulos_fabrica(Descripcion);
+
+ARTICULOS
+CREATE UNIQUE INDEX Id_Fabrica ON articulos(Id_Cuerpo);
+CREATE INDEX Indice1 ON articulos(Descripcion);
+
+PEDIDOS
+CREATE UNIQUE INDEX Id_Cabecera ON pedidos(Id_Cabecera);
+CREATE UNIQUE INDEX Id_Cuerpo ON pedidos(Id_Cuerpo);
+CREATE UNIQUE INDEX Id_Cliente ON pedidos(Id_Cliente);
+
+
+RELACIONES
+
+ARTICULOS
+ALTER TABLE articulos ADD FOREIGN KEY (Id_Cuerpo) REFERENCES Cuerpo (Id_Cuerpo) ON DELETE CASCADE ON UPDATE CASCADE; 
+
+ARTICULOS FABRICA
+ALTER TABLE articulos_fabrica ADD FOREIGN KEY (Numero_Pedido) REFERENCES Articulos (Numero_Pedido) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE articulos_fabrica ADD FOREIGN KEY (Id_Fabrica) REFERENCES fabrica (Id_Fabrica) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE articulos_fabrica ADD FOREIGN KEY (Descripcion) REFERENCES Articulos (Descripcion) ON DELETE CASCADE ON UPDATE CASCADE;
+
+PEDIDOS
+ALTER TABLE pedidos ADD FOREIGN KEY (Id_Cabecera) REFERENCES cabecera (Id_Cabecera) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE pedidos ADD FOREIGN KEY (Id_Cuerpo) REFERENCES cuerpo (Id_Cuerpo) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE pedidos ADD FOREIGN KEY (Id_Cliente) REFERENCES cliente (Id_Cliente) ON DELETE CASCADE ON UPDATE CASCADE;
