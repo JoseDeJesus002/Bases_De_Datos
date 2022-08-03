@@ -1,0 +1,538 @@
+CREATE DATABASE productosRubrica;
+
+USE productosRubrica;
+
+-- LISTA
+
+CREATE TABLE Cliente(
+    Id_Cliente int(5) PRIMARY KEY, 
+    Id_Direccion int(5), 
+
+    Nombre varchar(20), 
+    Apellido varchar(20), 
+    Saldo double, 
+    Lim_credito double, 
+    Porcentage_Descuento int(2)
+);
+
+-- LISTA
+
+CREATE TABLE Direccion_Cliente(
+    Id_Direccion int(5) PRIMARY KEY, 
+
+    Estado varchar(20),
+    Colonia varchar(20),
+    Calle varchar(20),
+    CP int(5)
+);
+
+-- LISTA
+
+CREATE TABLE Cabecera(
+    Id_Cabecera int(5) PRIMARY KEY,
+    Id_Cliente int(5), 
+    Id_Direccion int(5),
+
+    Fecha_Compra date
+);
+
+-- LISTA
+    
+CREATE TABLE Cuerpo(
+    Id_Cuerpo int(5) PRIMARY KEY,
+    Id_Articulo int(5),
+
+    Articulos_vendidos int(2)
+);
+
+-- LISTA
+
+CREATE TABLE Articulos(
+    Id_Articulo int(5) PRIMARY KEY,
+    Id_Fabrica int(5),
+
+    Articulo varchar(50),
+    Tipo varchar(20),
+    Precio float
+);
+
+-- LISTA
+
+CREATE TABLE Fabrica(
+    Id_Fabrica int(5) PRIMARY KEY,
+
+    Nombre varchar(20),
+    Estado varchar(20),
+    Telefono bigint(10)
+);
+
+
+-- LISTA
+
+CREATE TABLE Pedido(
+    Id_Pedido  int(5) PRIMARY KEY,
+    Id_Cliente int (5), 
+    Id_Articulo int(5),
+    Id_Cabecera int(5), 
+    Id_Cuerpo int(5)
+);
+
+-- indices de las tablas
+
+CREATE INDEX Direccion ON cliente(Id_Direccion);
+
+CREATE INDEX Cliente ON Cabecera(Id_Cliente);
+CREATE INDEX Direccion2 ON Cabecera(Id_Direccion);
+
+CREATE INDEX pedidoArticulo ON Cuerpo(Id_Articulo);
+
+CREATE INDEX Fabrica ON Articulos(Id_Fabrica);
+
+CREATE INDEX Id_Cliente ON Pedido(Id_Cliente);
+CREATE INDEX Id_Articulo ON Pedido(Id_Articulo);
+CREATE INDEX Id_Cabecera ON Pedido(Id_Cabecera);
+CREATE INDEX Id_Cuerpo ON Pedido(Id_Cuerpo);
+
+-- relaciones
+
+ALTER TABLE cliente ADD FOREIGN KEY (Id_Direccion) REFERENCES Direccion_Cliente(Id_Direccion) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Cabecera ADD FOREIGN KEY (Id_Cliente) REFERENCES cliente(Id_Cliente) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE Cabecera ADD FOREIGN KEY (Id_Direccion) REFERENCES Direccion_Cliente(Id_Direccion) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Articulos ADD FOREIGN KEY (Id_Fabrica) REFERENCES Fabrica(Id_Fabrica) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Cuerpo ADD FOREIGN KEY (Id_Articulo) REFERENCES Articulos(Id_Articulo) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Pedido ADD FOREIGN KEY (Id_Cliente) REFERENCES Cliente(Id_Cliente) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE Pedido ADD FOREIGN KEY (Id_Articulo) REFERENCES Articulos(Id_Articulo) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE Pedido ADD FOREIGN KEY (Id_Cabecera) REFERENCES Cabecera(Id_Cabecera) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE Pedido ADD FOREIGN KEY (Id_Cuerpo) REFERENCES Cuerpo(Id_Cuerpo) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE UNIQUE INDEX nombreCompleto ON Cliente(Nombre, Apellido);
+CREATE UNIQUE INDEX Tele ON Fabrica(Telefono);
+
+-- INSERCIÓN DE DATOS EN Direccion
+
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40001, 'México'             , 'Los Sauces'       ,  'Parietaria'      ,55635); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40002, 'Chihuahua'          , 'Encinos'          ,  'Olivos'          ,55636); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40003, 'Jalisco'            , 'Plazas'           ,  'Pandorea'        ,55637); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40004, 'Aguascalientes'     , 'Galaxia'          ,  'Panadera'        ,55638); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40005, 'México'             , 'Los sauces II'    ,  'Roma'            ,55639); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40006, 'Nuevo León'         , 'La noria'         ,  'Italia'          ,55640); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40007, 'Hidalgo'            , 'La pandores'      ,  'Floreada'        ,55641); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40008, 'Michoacán'          , 'Magnolias'        ,  'Incas'           ,55642); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40009, 'San Luis Potosí'    , 'Santa lucia'      ,  'Azteca'          ,55643); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40010, 'Puebla'             , '5 de mayo'        ,  'Laboratorio'     ,55644); 
+
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40011, 'México'             , 'Trueno'           ,  'Parie'           ,55655); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40012, 'Querétaro'          , 'Montañas'         ,  'Oliv'            ,55656); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40013, 'Colima'             , 'Lazos'            ,  'Pando'           ,55657); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40014, 'Ciudad de México'   , 'La plaza'         ,  'Los cabos'       ,55658);  
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40015, 'Yucatán'            , 'Morales'          ,  'Rom'             ,55669); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40016, 'México'             , 'Motores'          ,  'Indonesia'       ,55660); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40017, 'México'             , 'Marte'            ,  'Flor'            ,55661); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40018, 'Veracruz'           , 'Jupiter'          ,  'Inca'            ,55662); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40019, 'Durango'            , 'Saturno'          ,  'Aztecas'         ,55663); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40020, 'México'             , 'Pluton'           ,  'El Laboratorio'  ,55664); 
+
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40021, 'Ciudad de México'   , 'Relampago'        ,  'Parietaria'      ,55675); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40022, 'Baja California'    , 'Cerros'           ,  'Olivos'          ,55676); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40023, 'México'             , 'Cuerdas'          ,  'Pandorea'        ,55677); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40024, 'Sinaloa'            , 'Almendariz'       ,  'Andromeda'       ,55678); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40025, 'Guerrero'           , 'Hernandez'        ,  'Roma'            ,55689); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40026, 'Campeche'           , 'Gasera'           ,  'Italia'          ,55680); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40027, 'Durango'            , 'Jupiter'          ,  'Floreada'        ,55681); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40028, 'Aguascalientes'     , 'Saturno'          ,  'Incas'           ,55682); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40029, 'Quintana Roo	'      , 'Pluton'           ,  'Azteca'          ,55683); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40030, 'México'             , 'Marte'            ,  'Laboratorio'     ,55684); 
+
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40031, 'Zacatecas'          , 'Sauces'           ,  'Parietaria'      ,55695); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40032, 'Tabasco'            , 'Los Encinos'      ,  'Olivos'          ,55696); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40033, 'Jalisco'            , 'Las Plazas'       ,  'Pandorea'        ,55697); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40034, 'Baja California Sur', 'Romance'          ,  'Valentin'        ,55698);  
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40035, 'Chiapas'            , 'Los sauces III'   ,  'Roma'            ,55619); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40036, 'México'             , 'Noria'            ,  'Italia'          ,55610); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40037, 'Ciudad de México'   , 'La Zanaoria'      ,  'Floreada'        ,55611); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40038, 'Ciudad de México	'  , 'Las magnolias'    ,  'Incas'           ,55612); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40039, 'Tlaxcala'           , 'Es Santa lucia'   ,  'Azteca'          ,55613); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40040, 'Jalisco'            , '5 de mayo'        ,  'Laboratorio'     ,55614); 
+
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40041, 'Chihuahua'          , 'El trueno'        ,  'Parietaria'      ,75635); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40042, 'Chiapas'            , 'Las montañas'     ,  'Olivos'          ,75636); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40043, 'México'             , 'Los lazos'        ,  'Pandorea'        ,75637); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40044, 'México'             , 'Solares'          ,  'Sistema'         ,75638); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40045, 'Oaxaca'             , 'De morales'       ,  'Roma'            ,75639);  
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40046, 'México'             , 'Los motores'      ,  'Italia'          ,75640); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40047, 'Puebla'             , 'Saturno'          ,  'Floreada'        ,75641); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40048, 'Durango'            , 'Marte'            ,  'Incas'           ,75642); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40049, 'Aguascalientes'     , 'Pluton'           ,  'Azteca'          ,75643); 
+INSERT INTO Direccion_Cliente(Id_Direccion, Estado, Colonia ,Calle, CP) VALUES(40050, 'México'             , 'Jupiter'          ,  'Laboratorio'     ,75644); 
+
+-- INSERCION DE DATOS EN Cliente
+
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20001, 40001, 'Alexandher'  , 'Armendariz'  , 1001.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20002, 40002, 'Aaron'       , 'Cordoba'     , 1002.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20003, 40003, 'Valeria'     , 'Molina'      , 1003.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20004, 40004, 'Pedro'       , 'Wang'        , 1004.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20005, 40005, 'Maximiliano' , 'Almazan'     , 1005.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20006, 40006, 'Valeria'     , 'Hernandez'   , 1006.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20007, 40007, 'Valentina'   , 'Tellez'      , 1007.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20008, 40008, 'Julieta'     , 'Martinez'    , 1008.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20009, 40009, 'Paola'       , 'Jimenez'     , 1009.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20010, 40010, 'Rodrigo'     , 'Zarate'      , 1010.00, 10000.00, 10); 
+
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20011, 40011, 'Darien'      , 'Ramires'     , 1011.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20012, 40012, 'Raul'        , 'Fernandez'   , 1012.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20013, 40013, 'Antonio'     , 'Basurto'     , 1013.00, 10000.00, 10); 
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20014, 40014, 'Diego'       , 'Gonzales'    , 1014.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20015, 40015, 'Johana'      , 'Dominguez'   , 1015.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20016, 40016, 'Alejandro'   , 'Mejia'       , 1016.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20017, 40017, 'David'       , 'Leon'        , 1017.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20018, 40018, 'Armando'     , 'Segura'      , 1018.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20019, 40019, 'Leonardo'    , 'Alvarado'    , 1019.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20020, 40020, 'Brayan'      , 'Cardoso'     , 1020.00, 10000.00, 10);
+
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20021, 40021, 'Luis'        , 'Estevez '    , 1021.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20022, 40022, 'Miguel'      , 'Cruz'        , 1022.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20023, 40023, 'Estrella'    , 'Barrera'     , 1023.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20024, 40024, 'Avril'       , 'Magdaleno'   , 1024.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20025, 40025, 'Fatima'      , 'Flores'      , 1025.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20026, 40026, 'Damaris'     , 'Mercado '    , 1026.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20027, 40027, 'Ivan'        , 'Ortega '     , 1027.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20028, 40028, 'Pablo'       , 'Becerril'    , 1028.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20029, 40029, 'Antonela'    , 'Ramirez '    , 1029.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20030, 40030, 'Javier'      , 'Perez'       , 1030.00, 10000.00, 10);
+
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20031, 40031, 'Arturo'      , 'Sabino'      , 1031.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20032, 40032, 'Joshua'      , 'Garcia'      , 1032.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20033, 40033, 'Axel'        , 'Arista'      , 1033.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20034, 40034, 'Alexis'      , 'Porras '     , 1034.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20035, 40035, 'Ariel'       , 'Fuentes'     , 1035.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20036, 40036, 'Arlet'       , 'Cortes'      , 1036.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20037, 40037, 'Tamara'      , 'Castro'      , 1037.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20038, 40038, 'Oswaldo'     , 'Reyes'       , 1038.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20039, 40039, 'Geovani'     , 'Mercado'     , 1039.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20040, 40040, 'Graciela'    , 'Bustos'      , 1040.00, 10000.00, 10);
+
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20041, 40041, 'Natalia'     , 'Sanchez'     , 1041.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20042, 40042, 'Monserrat'   , 'Cordoba'     , 1042.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20043, 40043, 'Estefany'    , 'Estevez'     , 1043.00, 10000.00, 10); 
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20044, 40044, 'Areli'       , 'Espinosa'    , 1044.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20045, 40045, 'Marizol'     , 'Calzada'     , 1045.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20046, 40046, 'Anastacia'   , 'Martinez'    , 1046.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20047, 40047, 'Alejandra'   , 'Millan'      , 1047.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20048, 40048, 'Alexia'      , 'De Leon'     , 1048.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20049, 40049, 'Jose'        , 'Lopez'       , 1049.00, 10000.00, 10);
+INSERT INTO Cliente(Id_Cliente, Id_Direccion, Nombre, Apellido, Saldo, Lim_credito, Porcentage_Descuento) VALUES(20050, 40050, 'Erick'       , 'Rivera'      , 1050.00, 10000.00, 10);
+
+-- INSERCION DE DATOS EN Cabecera
+
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50001, 20001, 40001, '2022-01-01');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50002, 20002, 40002, '2022-02-02');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50003, 20003, 40003, '2022-04-03');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50004, 20004, 40004, '2022-03-04');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50005, 20005, 40005, '2022-05-05');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50006, 20006, 40006, '2022-07-06');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50007, 20007, 40007, '2022-06-07');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50008, 20008, 40008, '2022-08-08');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50009, 20009, 40009, '2022-09-09');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50010, 20010, 40010, '2022-10-10'); 
+
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50011, 20011, 40011, '2021-11-11');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50012, 20012, 40012, '2021-12-12');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50013, 20013, 40013, '2021-02-13'); 
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50014, 20014, 40014, '2021-01-14');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50015, 20015, 40015, '2021-04-15');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50016, 20016, 40016, '2021-03-16');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50017, 20017, 40017, '2021-05-17');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50018, 20018, 40018, '2021-06-18');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50019, 20019, 40019, '2021-08-19');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50020, 20020, 40020, '2021-07-20');
+
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50021, 20021, 40021, '2020-01-21');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50022, 20022, 40022, '2020-05-22');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50023, 20023, 40023, '2020-09-23');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50024, 20024, 40024, '2020-11-24');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50025, 20025, 40025, '2020-01-25');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50026, 20026, 40026, '2020-12-26');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50027, 20027, 40027, '2020-06-27');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50028, 20028, 40028, '2020-05-28');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50029, 20029, 40029, '2020-09-01');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50030, 20030, 40030, '2020-03-02');
+
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50031, 20031, 40031, '2022-05-21');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50032, 20032, 40032, '2022-01-20');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50033, 20033, 40033, '2022-01-19');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50034, 20034, 40034, '2022-07-18');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50035, 20035, 40035, '2022-01-17');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50036, 20036, 40036, '2022-12-16');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50037, 20037, 40037, '2022-09-15');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50038, 20038, 40038, '2022-11-14');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50039, 20039, 40039, '2022-10-13');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50040, 20040, 40040, '2022-12-12');
+
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50041, 20041, 40041, '2019-06-01');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50042, 20042, 40042, '2019-01-01');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50043, 20043, 40043, '2019-08-02'); 
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50044, 20044, 40044, '2019-01-03');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50045, 20045, 40045, '2019-01-04');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50046, 20046, 40046, '2019-07-05');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50047, 20047, 40047, '2019-01-06');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50048, 20048, 40048, '2019-01-07');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50049, 20049, 40049, '2019-09-08');
+INSERT INTO Cabecera(Id_Cabecera, Id_Cliente, Id_Direccion, Fecha_Compra) VALUES(50050, 20050, 40050, '2019-01-09');
+
+-- INSERCIÓN DE DATOS EN Fabrica
+
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12001, 'Fabric Big'                ,'México'               , 5635694119);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12002, 'Nueva Unión'               ,'Chihuahua'            , 5636694129);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12003, 'Magnific S.A'              ,'Jalisco'              , 5637694139);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12004, 'Cannavis'                  ,'Aguascalientes'       , 5638694149);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12005, 'Vértigo Book Store'        ,'México'               , 5639694159);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12006, 'Lighthouse Clothes'        ,'Nuevo León'           , 5640694169);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12007, 'Panty Village'             ,'Hidalgo'              , 5641694179);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12008, 'Exquisite Panty'           ,'Michoacán'            , 5642694189);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12009, 'Camisetas Jump'            ,'San Luis Potosí'      , 5643694199);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12010, 'Camisetas OnTarget'        ,'Puebla'               , 5644694109); 
+
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12011, 'Impresionar Camisetas'     ,'México'               , 5655694219);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12012, 'Cinnamom Overdressed'      ,'Querétaro'            , 5656694229);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12013, 'Gafas New Vision'          ,'Colima'               , 5657694239); 
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12014, 'Bolsos NearBig'            ,'Ciudad de México'     , 5658694249);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12015, 'Bolsos Tándem'             ,'Yucatán'              , 5669694259);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12016, 'GoldRush Watches'          ,'México'               , 6660694269);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12017, 'Librería Scoop'            ,'México'               , 6661694279);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12018, 'Reino Joyería'             ,'Veracruz'             , 6662694289);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12019, 'Joyería Estrella de Oro'   ,'Durango'              , 6663694299);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12020, 'Bisutería Perla'           ,'México'               , 6664694209);
+
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12021, 'Comparar Bisutería'        ,'Ciudad de México'     , 6675694319);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12022, 'Zafiro'                    ,'Baja California'      , 6676694329);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12023, 'Pulseras Kaboom'           ,'México'               , 6677694339);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12024, 'UpFront Book Store'        ,'Sinaloa'              , 6678694349);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12025, 'Frutas RedZone'            ,'Guerrero'             , 6689694359);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12026, 'Frutas de Proximidad'      ,'Campeche'             , 6680694369);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12027, 'Frutería Marietta'         ,'Durango'              , 6681694379);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12028, 'Masterpiece Fruits'        ,'Aguascalientes'       , 6682694389);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12029, 'The Kingdom of the Vegan'  ,'Quintana Roo'         , 6683694399);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12030, 'Vegetables and Greens'     ,'México'               , 6684694309);
+
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12031, 'Alta Carnicería'           ,'Zacatecas'            , 6695694419);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12032, 'A la Vista Vinos'          ,'Tabasco'              , 6696694429);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12033, 'Café Smarter'              ,'Jalisco'              , 6697694439);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12034, 'Legendario'                ,'Baja California Sur'  , 7698694449);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12035, 'Narnia'                    ,'Chiapas'              , 7619694459);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12036, 'Ínsula Barataria'          ,'México'               , 7610694469);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12037, 'La Patria de Papel'        ,'Ciudad de México'     , 7611694479);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12038, 'Ebooks No Limits'          ,'Ciudad de México'     , 7612694489);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12039, 'Krunchy-Krunchy'           ,'Tlaxcala'             , 7613694499);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12040, 'Pethungry'                 ,'Jalisco'              , 7614694409);
+
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12041, 'LifeStyle Dogs'            ,'Chihuahua'            , 7635694519);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12042, 'Weekly Dog'                ,'Chiapas'              , 7636694529);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12043, 'Pet Hipermercado'          ,'México'               , 7637694539); 
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12044, 'Cats Marketplace'          ,'México'               , 7638694549);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12045, 'Tienda de Perros Nextday'  ,'Oaxaca'               , 7639694559);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12046, 'Pet Estudio'               ,'México'               , 7640694569);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12047, 'ToysForDogs'               ,'Puebla'               , 7641694579);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12048, 'Dog Food Culture'          ,'Durango'              , 7642694589);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12049, 'Yes We Fitness'            ,'Aguascalientes'       , 7643694599);
+INSERT INTO Fabrica(Id_Fabrica, Nombre, Estado, Telefono) VALUES(12050, 'Inno Deportes'             ,'México'               , 7644694509);
+
+-- INSERCIÓN DE DATOS EN Articulos
+
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77001 ,12001,'Calculadora Cientifica PPXZ-132','Papeleria'            ,100  );  
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77002 ,12002,'Paquete de hojas'               ,'Papeleria'            ,75   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77003 ,12003,'Paquete de estampas'            ,'Papeleria'            ,20   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77004 ,12004,'Paquete de Plumas'              ,'Papeleria'            ,35   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77005 ,12005,'Paquete de Plumones'            ,'Papeleria'            ,45   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77006 ,12006,'Paquete de Lapices'             ,'Papeleria'            ,30   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77007 ,12007,'Paquete de Gomas'               ,'Papeleria'            ,25   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77008 ,12008,'Paquete de Sacapuntas'          ,'Papeleria'            ,20   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77009 ,12009,'Paquete de Hojas de color'      ,'Papeleria'            ,85   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77010 ,12010,'Paquete de Posticks'            ,'Papeleria'            ,15   );
+
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77011 ,12011,'USB 8 GB'                       ,'Computación'          ,60   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77012 ,12012,'USB 16 GB'                      ,'Computación'          ,80   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77013 ,12013,'USB 32 GB'                      ,'Computación'          ,100  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77014 ,12014,'USB 64 GB'                      ,'Computación'          ,150  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77015 ,12015,'USB 128 GB'                     ,'Computación'          ,200  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77016 ,12016,'USB 256 GB'                     ,'Computación'          ,250  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77017 ,12017,'USB 512 GB'                     ,'Computación'          ,325  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77018 ,12018,'USB 1 TB'                       ,'Computación'          ,500  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77019 ,12019,'Coca Cola 500 ml'               ,'Bebidas'              ,15   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77020 ,12020,'Coca Cola 800 ml'               ,'Bebidas'              ,20   );
+
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77021 ,12021,'Coca Cola 1 Lt'                 ,'Bebidas'              ,22   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77022 ,12022,'Coca Cola 2 Lt'                 ,'Bebidas'              ,26   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77023 ,12023,'Coca Cola 3 Lt'                 ,'Bebidas'              ,35   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77024 ,12024,'Pepsi 500 ml'                   ,'Bebidas'              ,15   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77025 ,12025,'Pepsi 800 ml'                   ,'Bebidas'              ,20   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77026 ,12026,'Pepsi 1 Lt'                     ,'Bebidas'              ,22   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77027 ,12027,'Pepsi 2 Lt'                     ,'Bebidas'              ,26   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77028 ,12028,'Pepsi 3 Lt'                     ,'Bebidas'              ,35   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77029 ,12029,'Jarritos 500 ml'                ,'Bebidas'              ,15   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77030 ,12030,'Jarritos 800 ml'                ,'Bebidas'              ,20   );
+
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77031 ,12031,'Jarritos 1 Lt'                  ,'Bebidas'              ,22   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77032 ,12032,'Jarritos 2 Lt'                  ,'Bebidas'              ,26   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77033 ,12033,'Jarritos 3 Lt'                  ,'Bebidas'              ,35   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77034 ,12034,'Bonafont 1Lt'                   ,'Bebidas'              ,10   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77035 ,12035,'Bonafont 2Lt'                   ,'Bebidas'              ,18   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77036 ,12036,'Levite limon 1 Lt'              ,'Bebidas'              ,20   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77037 ,12037,'Levite Jamaica 1 Lt'            ,'Bebidas'              ,20   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77038 ,12038,'Levite Fresa 1 Lt'              ,'Bebidas'              ,20   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77039 ,12039,'Lapicera'                       ,'Escolar'              ,24   );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77040 ,12040,'Mochila mini frontal'           ,'Escolar'              ,40   );
+
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77041 ,12041,'Gorra roja'                     ,'Accesorio'            ,190  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77042 ,12042,'Gorra negra'                    ,'Accesorio'            ,155  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77043 ,12043,'Gorra verde'                    ,'Accesorio'            ,178  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77044 ,12044,'Gorra azul'                     ,'Accesorio'            ,150  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77045 ,12045,'Gorra amarilla'                 ,'Accesorio'            ,178  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77046 ,12046,'Gorra gris'                     ,'Accesorio'            ,163  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77047 ,12047,'Gorra blanca'                   ,'Accesorio'            ,150  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77048 ,12048,'Gorra Anaranjada'               ,'Accesorio'            ,147  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77049 ,12049,'Gorra Morada'                   ,'Accesorio'            ,135  );
+INSERT INTO Articulos(Id_Articulo, Id_Fabrica, Articulo, Tipo, Precio) VALUES( 77050 ,12050,'Gorra Purpura'                  ,'Accesorio'            ,115  );
+
+-- INSERCIÓN DE DATOS EN Cuerpo
+
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15001, 77001, 150);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15002, 77002, 200);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15003, 77003, 147);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15004, 77004, 147);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15005, 77005, 147);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15006, 77006, 147);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15007, 77007, 147);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15008, 77008, 218);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15009, 77009, 218);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15010, 77010, 218); 
+
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15011, 77011, 218);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15012, 77012, 218);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15013, 77013, 234); 
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15014, 77014, 234);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15015, 77015, 234);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15016, 77016, 234);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15017, 77017, 234);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15018, 77018, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15019, 77019, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15020, 77020, 154);
+
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15021, 77021, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15022, 77022, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15023, 77023, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15024, 77024, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15025, 77025, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15026, 77026, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15027, 77027, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15028, 77028, 215);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15029, 77029, 215);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15030, 77030, 215);
+
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15031, 77031, 215);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15032, 77032, 215);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15033, 77033, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15034, 77034, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15035, 77035, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15036, 77036, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15037, 77037, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15038, 77038, 215);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15039, 77039, 215);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15040, 77040, 215);
+
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15041, 77041, 215);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15042, 77042, 315);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15043, 77043, 315); 
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15044, 77044, 315);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15045, 77045, 315);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15046, 77046, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15047, 77047, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15048, 77048, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15049, 77049, 154);
+INSERT INTO Cuerpo(Id_Cuerpo, Id_Articulo, Articulos_vendidos) VALUES(15050, 77050, 154);
+
+-- INSERCIÓN DE DATOS EN Pedido
+
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90001, 20001, 77001, 50001, 15001);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90002, 20002, 77002, 50002, 15002);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90003, 20003, 77003, 50003, 15003);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90004, 20004, 77004, 50004, 15004);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90005, 20005, 77005, 50005, 15005);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90006, 20006, 77006, 50006, 15006);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90007, 20007, 77007, 50007, 15007);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90008, 20008, 77008, 50008, 15008);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90009, 20009, 77009, 50009, 15009);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90010, 20010, 77010, 50010, 15010); 
+
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90011, 20011, 77011, 50011, 15011);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90012, 20012, 77012, 50012, 15012);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90013, 20013, 77013, 50013, 15013); 
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90014, 20014, 77014, 50014, 15014);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90015, 20015, 77015, 50015, 15015);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90016, 20016, 77016, 50016, 15016);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90017, 20017, 77017, 50017, 15017);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90018, 20018, 77018, 50018, 15018);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90019, 20019, 77019, 50019, 15019);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90020, 20020, 77020, 50020, 15020);
+
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90021, 20021, 77021, 50021, 15021);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90022, 20022, 77022, 50022, 15022);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90023, 20023, 77023, 50023, 15023);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90024, 20024, 77024, 50024, 15024);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90025, 20025, 77025, 50025, 15025);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90026, 20026, 77026, 50026, 15026);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90027, 20027, 77027, 50027, 15027);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90028, 20028, 77028, 50028, 15028);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90029, 20029, 77029, 50029, 15029);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90030, 20030, 77030, 50030, 15030);
+
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90031, 20031, 77031, 50031, 15031);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90032, 20032, 77032, 50032, 15032);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90033, 20033, 77033, 50033, 15033);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90034, 20034, 77034, 50034, 15034);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90035, 20035, 77035, 50035, 15035);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90036, 20036, 77036, 50036, 15036);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90037, 20037, 77037, 50037, 15037);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90038, 20038, 77038, 50038, 15038);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90039, 20039, 77039, 50039, 15039);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90040, 20040, 77040, 50040, 15040);
+
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90041, 20041, 77041, 50041, 15041);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90042, 20042, 77042, 50042, 15042);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90043, 20043, 77043, 50043, 15043); 
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90044, 20044, 77044, 50044, 15044);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90045, 20045, 77045, 50045, 15045);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90046, 20046, 77046, 50046, 15046);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90047, 20047, 77047, 50047, 15047);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90048, 20048, 77048, 50048, 15048);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90049, 20049, 77049, 50049, 15049);
+INSERT INTO Pedido(Id_Pedido, Id_Cliente, Id_Articulo, Id_Cabecera, Id_Cuerpo) VALUES(90050, 20050, 77050, 50050, 15050);
+
+--Enunciados
+
+-- a. Muestra todos los productos con costo menos a $35.00.
+  SELECT Costo FROM Articulos WHERE Costo < 35
+
+-- b. Muestra el nombre de los fabricantes con domicilio diferente al Estado de México.
+
+  SELECT  Nombre FROM Fabrica WHERE Estado <> 'Mexico';
+
+-- d. Realiza la reducción de $20.00 en los productos de tipo bebidas
+
+  UPDATE Articulos SET Precio = Precio - 20 WHERE Artiuclo Tipo == 'Bebidas';
+
+-- e. Realiza la eliminación de los registros donde después de la reducción de costo el precio quedo en $0.00.
+
+  DELETE FROM Articulos WHERE Precio <= 0;
