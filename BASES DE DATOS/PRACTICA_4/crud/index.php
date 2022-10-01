@@ -12,7 +12,7 @@ $query=mysqli_query($con,$sql);
 </head>
 <body bgcolor="#04b3b0">
 	<div>
-		<a href="">Nuevo Registro</a>
+		<a href="agregar.php">Nuevo Registro</a>
 		<table border="black">
 			<thead>
 				<tr>

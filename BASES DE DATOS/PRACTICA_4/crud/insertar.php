@@ -6,10 +6,10 @@ $modelo_disfraz=$_POST['MODELO_DISFRAZ'];
 $nombre=$_POST['NOMBRE'];
 $talla=$_POST['TALLA'];
 
-if($modelo!=null||$nombre!=null||$talla!=)
+if($modelo_disfraz!=null||$nombre!=null||$talla!=null)
 {
-	$sql="insert into disfraz(MODELO_DISFRAZ,NOMBRE,TALLA)values('"$modelo_disfraz."', '"$nombre."','"$talla."')";
-	myqli_query($con,$sql);
+	$sql="insert into disfraz(MODELO_DISFRAZ,NOMBRE,TALLA)values('".$modelo_disfraz."', '".$nombre."','".$talla."')";
+	mysqli_query($con,$sql);
 	if($user=1)
 	{
 		header("location:index.php");
