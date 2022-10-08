@@ -1,7 +1,7 @@
 <?php
 include ("conexion.php");
 $con=conectar();
-$sql = "select *from disfraz";
+$sql = "SELECT * FROM disfraz";
 $query=mysqli_query($con,$sql);
 ?>
 
@@ -34,8 +34,8 @@ $query=mysqli_query($con,$sql);
 				<td align="center"><?php echo $row['MODELO_DISFRAZ']?></td>
 				<td><?php echo $row['NOMBRE']?></td>
 				<td><?php echo $row['TALLA']?></td>
-				<td><a href="">Editar</a></td>
-				<td><a href="">Eliminar</a></td>
+				<td><a href="actualizar.php?id=<?php echo $row['MODELO_DISFRAZ'] ?>">Editar</a></td>
+				<td><a href="eliminar.php?id=<?php echo $row['MODELO_DISFRAZ'] ?>">Eliminar</a></td>
 			</tr>
 
 			<?php

@@ -1,0 +1,16 @@
+thead th{
+	background-color: #3B833D;
+	color: #FFF;
+}
+
+tbody th{
+	font-weight: normal;
+	background-color: #0084FF;
+	color: #C6CE00;
+}
+
+td{
+	border: 1px solid #000;
+	padding: 10px;
+}
+	<link rel="stylesheet" type="text/css" href="diseño.css">
