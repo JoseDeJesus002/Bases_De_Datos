@@ -1,0 +1,63 @@
+agregar nuevo registro
+
+DELIMITER $$
+CREATE PROCEDURE insert_alum (IN Matri int(5),Nom varchar(32), ap varchar(32),am varchar(32),edad int(2),estado varchar(32), peso int(4))
+begin
+insert into alumnoss values(Matri,Nom,ap,am,edad,estado,peso);
+end$$
+$$ call insert_alum(10523,"Mario","Martinez","Camargo",18,"Quintana Roo",85) $$
+
+menor al peso
+
+DELIMITER $$
+CREATE PROCEDURE masa_co (IN Masa int(4))
+begin
+select Peso from alumnoss where Peso<Masa;
+end$$
+$$ call masa_co(80) $$
+
+aumentar edad
+
+DELIMITER $$
+CREATE PROCEDURE mod_edad (IN `matri` INT(5))
+begin
+update alumnoss set Edad=Edad+1 where Matricula=matri;
+end$$
+$$ call mod_edad(10514) $$
+
+mostrar datos segun la matricula
+
+DELIMITER $$
+CREATE PROCEDURE muestra_mat (IN Mat int(5))
+begin
+select *from alumnoss where Matricula=Mat;
+end$$
+$$ call muestra_mat(10523) $$
+
+aumentar peso
+
+DELIMITER $$
+CREATE PROCEDURE mod_peso (IN `peso` FLOAT(4), IN `matri` INT(5))
+begin
+UPDATE alumnoss set Peso=peso*Peso Where Matricula=matri
+end$$
+$$ call mod_peso(10523,1.10) $$
+ 
+
+Indice de masa corporal alumnos IN y OUT
+
+Delimiter $$
+create procedure IMSC(IN mat int, OUT IMC float(5,2))
+begin
+select (Peso/(Estatura*Estatura)) Into IMC FROM alumnoss where Matricula=mat;
+end $$
+llamar IMSC
+
+$$ call IMSC(10511,@IMC) $$
+select @IMC as "Indice de masa";
+$$
++-------------------+
+| Indice de masa    |
++-------------------+
+| 27.68000030517578 |
++-------------------+

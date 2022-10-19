@@ -1,0 +1,26 @@
+Productos importe IN y OUT
+
+Delimiter $$
+create procedure import(IN Nombre varchar(20), OUT importe float(10,2))
+begin
+select (costo*cantidad) into importe from producto where producto=nombre;
+end $$
+
+llamar importe
+$$ call import('coca-cola',@importe) $$
+select @importe as "importe del producto";
+$$
+sprite
++----------------------+
+| importe del producto |
++----------------------+
+|                  162 |
++----------------------+
+coca
++----------------------+
+| importe del producto |
++----------------------+
+|                171.5 |
++----------------------+
+
+
