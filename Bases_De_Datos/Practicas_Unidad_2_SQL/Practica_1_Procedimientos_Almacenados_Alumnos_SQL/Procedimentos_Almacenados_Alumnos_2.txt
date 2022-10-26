@@ -1,0 +1,48 @@
+1.
+
+Delimiter $$
+create procedure Nac(IN Matri int, IN anio int,OUT Edad_Anio int)
+begin
+select (anio-Edad) Into Edad_Anio From alumnoss where Matricula=Matri;
+end $$
+
+$$ Call Nac (10511,22,@Edad_Anio) $$
+select @Edad_Anio as "Diferencia";
+$$
++------------+
+| Diferencia |
++------------+
+|          3 |
++------------+
+
+2.
+Delimiter $$
+create procedure dif_peso(IN Matri int, OUT IMC Float(5,2))
+begin
+Select (peso/(Estatura*Estatura)) INTO IMC From alumnoss where Matricula=Matri;
+end $$
+
+$$ call dif_peso(10522,@IMC) $$
+select @IMC as "Diferencia_Peso";
+$$
+
++--------------------+
+| Diferencia_Peso    |
++--------------------+
+| 24.969999313354492 |
++--------------------+
+
+3.
+Delimiter $$
+create procedure Info(IN Matri int)
+begin
+select Apellido_paterno,Nombre,Edad From alumnoss where Matricula=Matri;
+end $$
+
+$$ call Info(10511) $$
+
++------------------+--------+------+
+| Apellido_paterno | Nombre | Edad |
++------------------+--------+------+
+| Avila            | Manuel |   19 |
++------------------+--------+------+
