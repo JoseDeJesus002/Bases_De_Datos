@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-10-2022 a las 05:46:50
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 7.4.29
+-- Tiempo de generación: 30-10-2022 a las 00:42:49
+-- Versión del servidor: 10.4.25-MariaDB
+-- Versión de PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,24 +25,28 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `IMSC` (IN `mat` INT, OUT `IMC` FLOAT(5,2))   begin
-select (Peso/(Estatura*Estatura)) Into IMC FROM alumnoss where Matricula=mat;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `edadx` (IN `matri` INT, IN `anio_futuro` INT, IN `anio_actual` INT, OUT `Edad_Anio` INT)   begin
+select Edad+(anio_futuro-anio_actual) Into Edad_Anio From alumnoss where Matricula=matri;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_alum` (IN `Matri` INT(5), `Nom` VARCHAR(32), `ap` VARCHAR(32), `am` VARCHAR(32), `edad` INT(2), `estado` VARCHAR(32), `peso` INT(4))   insert into alumnoss values(Matri,Nom,ap,am,edad,estado,peso);$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `masa_co` (IN `Masa` INT(4))   begin
-select Peso from alumnoss where Peso<Masa;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `IMC` (IN `mat` INT, OUT `IMCS` FLOAT(5,2))   begin
+select (Peso/(Estatura*Estatura)) Into IMCS FROM alumnoss where Matricula=mat;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mod_edad` (IN `matri` INT(5))   begin
-update alumnoss set Edad=Edad+1 where Matricula=matri;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_alum` (IN `Matri` INT(5), `Nom` VARCHAR(32), `ap` VARCHAR(32), `am` VARCHAR(32), `edad` INT(2), `estado` VARCHAR(32), `peso` INT(4))   insert into alumnoss values(Matri,Nom,ap,am,edad,estado,peso)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mod_edad` (IN `matri` INT, IN `anios_aument` INT)   begin
+update alumnoss set Edad=Edad+anios_aument where Matricula=matri;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `mod_peso` (IN `peso` FLOAT(4), IN `matri` INT(5))   UPDATE alumnoss set Peso=peso*Peso Where Matricula=matri$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `mod_peso` (IN `matri` INT(5), IN `porcentaje` FLOAT(4))   UPDATE alumnoss set Peso=Peso+(Peso/porcentaje) Where Matricula=matri$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `muestra_mat` (IN `Mat` INT(5))   begin
 select *from alumnoss where Matricula=Mat;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `peso_menor` (IN `Masa` INT(4))   begin
+select * from alumnoss where Peso<Masa;
 end$$
 
 DELIMITER ;
@@ -70,10 +74,10 @@ CREATE TABLE `alumnoss` (
 
 INSERT INTO `alumnoss` (`Matricula`, `Nombre`, `Apellido_paterno`, `Apellido_materno`, `Edad`, `Estado`, `Peso`, `Estatura`) VALUES
 (10510, 'Emanuel', 'Ramirez', 'Camacho', 18, 'EDOMEX', 60, 1.68),
-(10511, 'Manuel', 'Avila', 'Dominguez', 19, 'CDMX', 80, 1.70),
+(10511, 'Manuel', 'Avila', 'Dominguez', 19, 'CDMX', 88, 1.70),
 (10512, 'Fernando', 'Rodriguez', 'Martinez', 20, 'Michoacan', 75, 1.50),
 (10513, 'Paulina', 'Dominguez', 'Herrera', 18, 'Colima', 80, 1.80),
-(10514, 'Paula', 'Jazmin', 'Rodriguez', 20, 'Monterrey', 60, 1.90),
+(10514, 'Paula', 'Jazmin', 'Rodriguez', 22, 'Monterrey', 60, 1.90),
 (10515, 'Jatziri', 'Avalez', 'Perez', 23, 'EDOMEX', 65, 1.50),
 (10516, 'Monserrat', 'Ramirez', 'Ortiz', 19, 'CDMX', 80, 1.60),
 (10517, 'Bety', 'Camacho', 'Ortiz', 18, 'Veracruz', 70, 1.80),
