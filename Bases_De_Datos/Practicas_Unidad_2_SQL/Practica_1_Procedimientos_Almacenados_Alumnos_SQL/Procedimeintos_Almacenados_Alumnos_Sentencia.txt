@@ -1,63 +1,50 @@
-agregar nuevo registro
+1. Regresa el registro de alumnos con el peso menor a x 
 
 DELIMITER $$
-CREATE PROCEDURE insert_alum (IN Matri int(5),Nom varchar(32), ap varchar(32),am varchar(32),edad int(2),estado varchar(32), peso int(4))
+CREATE PROCEDURE peso_menor(IN Masa int)
 begin
-insert into alumnoss values(Matri,Nom,ap,am,edad,estado,peso);
+select * from alumnoss where Peso<Masa;
 end$$
-$$ call insert_alum(10523,"Mario","Martinez","Camargo",18,"Quintana Roo",85) $$
 
-menor al peso
+$$ call peso_menor(80) $$
 
-DELIMITER $$
-CREATE PROCEDURE masa_co (IN Masa int(4))
-begin
-select Peso from alumnoss where Peso<Masa;
-end$$
-$$ call masa_co(80) $$
-
-aumentar edad
-
-DELIMITER $$
-CREATE PROCEDURE mod_edad (IN `matri` INT(5))
-begin
-update alumnoss set Edad=Edad+1 where Matricula=matri;
-end$$
-$$ call mod_edad(10514) $$
-
-mostrar datos segun la matricula
+2. Muestra alumno de matricula x
 
 DELIMITER $$
 CREATE PROCEDURE muestra_mat (IN Mat int(5))
 begin
 select *from alumnoss where Matricula=Mat;
 end$$
+
 $$ call muestra_mat(10523) $$
 
-aumentar peso
+3. agregar nuevo registro
 
 DELIMITER $$
-CREATE PROCEDURE mod_peso (IN `peso` FLOAT(4), IN `matri` INT(5))
+CREATE PROCEDURE insert_alum (IN Matri int(5),Nom varchar(32), ap varchar(32),am varchar(32),edad int(2),estado varchar(32), peso int(4))
 begin
-UPDATE alumnoss set Peso=peso*Peso Where Matricula=matri
+insert into alumnoss values(Matri,Nom,ap,am,edad,estado,peso);
 end$$
-$$ call mod_peso(10523,1.10) $$
- 
 
-Indice de masa corporal alumnos IN y OUT
+$$ call insert_alum(10523,"Mario","Martinez","Camargo",18,"Quintana Roo",85) $$
 
-Delimiter $$
-create procedure IMSC(IN mat int, OUT IMC float(5,2))
+4. Modifica la edad de x alumno (aumenta el numero de años que ingresa el usuario)
+
+DELIMITER $$
+CREATE PROCEDURE mod_edad (IN matri int, IN anios_aument int)
 begin
-select (Peso/(Estatura*Estatura)) Into IMC FROM alumnoss where Matricula=mat;
-end $$
-llamar IMSC
+update alumnoss set Edad=Edad+anios_aument where Matricula=matri;
+end$$
 
-$$ call IMSC(10511,@IMC) $$
-select @IMC as "Indice de masa";
-$$
-+-------------------+
-| Indice de masa    |
-+-------------------+
-| 27.68000030517578 |
-+-------------------+
+$$ call mod_edad(10514,2) $$
+
+5. Modifica peso de un alumno segun el porcentaje
+
+DELIMITER $$
+CREATE PROCEDURE mod_peso (IN porcentaje FLOAT(4,2), IN matri int)
+begin
+UPDATE alumnoss set Peso=Peso+(Peso/porcentaje) Where Matricula=matri;
+end$$
+
+$$ call mod_peso(10523,10) $$
+ 
