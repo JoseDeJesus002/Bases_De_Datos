@@ -1,21 +1,39 @@
-1.
+1. Devuelve la edad de un alumno en el año x
 
 Delimiter $$
-create procedure Nac(IN Matri int, IN anio int,OUT Edad_Anio int)
+create procedure edadx(IN matri int, IN anio_futuro int, IN anio_actual int, OUT Edad_Anio int)
 begin
-select (anio-Edad) Into Edad_Anio From alumnoss where Matricula=Matri;
+select Edad+(anio_futuro-anio_actual) Into Edad_Anio From alumnoss where Matricula=matri;
 end $$
 
-$$ Call Nac (10511,22,@Edad_Anio) $$
-select @Edad_Anio as "Diferencia";
+$$ call edadx(10511,2030,2022,@Edad_Anio) $$
+select @Edad_Anio as "Edad_Futura";
 $$
 +------------+
-| Diferencia |
+|Edad_Futura |
 +------------+
-|          3 |
+|         27 |
 +------------+
 
-2.
+2.Calcula el IMC de x alumno
+
+DELIMITER $$
+CREATE PROCEDURE IMC(IN mat INT, OUT IMCS FLOAT(3,2))
+begin
+select (Peso/(Estatura*Estatura)) Into IMCS FROM alumnoss where Matricula=mat;
+end$$
+
+$$ call IMC(10511,@IMCS) $$
+select @IMCS as "Indice";
+$$
++-------------------+
+| Indice            |
++-------------------+
+| 27.68000030517578 |
++-------------------+
+
+--------3. Diferencia entre peso y estatura de x alumno----------
+
 Delimiter $$
 create procedure dif_peso(IN Matri int, OUT IMC Float(5,2))
 begin
@@ -32,7 +50,8 @@ $$
 | 24.969999313354492 |
 +--------------------+
 
-3.
+4. Muestra edad, apellido paterno y nombre de un alumno x
+
 Delimiter $$
 create procedure Info(IN Matri int)
 begin
