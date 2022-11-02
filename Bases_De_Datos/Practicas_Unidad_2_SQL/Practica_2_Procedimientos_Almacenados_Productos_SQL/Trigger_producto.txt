@@ -1,0 +1,3 @@
+CREATE TRIGGER llenar_lista AFTER INSERT
+    -> ON Producto for each row INSERT INTO lista_precios(id_producto,producto,costo)
+    -> VALUES(new.id_producto,new.producto,new.costo);
