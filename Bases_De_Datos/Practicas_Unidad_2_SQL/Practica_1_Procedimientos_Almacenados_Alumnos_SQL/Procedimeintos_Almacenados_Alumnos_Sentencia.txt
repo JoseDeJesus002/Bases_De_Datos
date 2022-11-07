@@ -16,17 +16,17 @@ begin
 select *from alumnoss where Matricula=Mat;
 end$$
 
-$$ call muestra_mat(10523) $$
+$$ call muestra_mat(10520) $$
 
 3. agregar nuevo registro
 
 DELIMITER $$
-CREATE PROCEDURE insert_alum (IN Matri int(5),Nom varchar(32), ap varchar(32),am varchar(32),edad int(2),estado varchar(32), peso int(4))
+CREATE PROCEDURE insert_alum (IN Matri int(5),Nom varchar(32), ap varchar(32),am varchar(32),edad int(2),estado varchar(32), peso int(4),Estat float(5,2))
 begin
-insert into alumnoss values(Matri,Nom,ap,am,edad,estado,peso);
+insert into alumnoss values(Matri,Nom,ap,am,edad,estado,peso,Estat);
 end$$
 
-$$ call insert_alum(10523,"Mario","Martinez","Camargo",18,"Quintana Roo",85) $$
+$$ call insert_alum(10523,"Mario","Martinez","Camargo",18,"Quintana Roo",85,1.80) $$
 
 4. Modifica la edad de x alumno (aumenta el numero de años que ingresa el usuario)
 
