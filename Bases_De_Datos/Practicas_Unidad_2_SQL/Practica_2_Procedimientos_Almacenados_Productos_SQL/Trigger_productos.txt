@@ -1,0 +1,6 @@
+10. Lista de precios trigger
+Delimiter $$
+Create trigger llenar_lista AFTER INSERT ON producto
+FOR EACH ROW INSERT INTO lista_precios(id_producto,producto,costo)
+VALUES(new.id_producto,new.producto,new.costo);
+$$

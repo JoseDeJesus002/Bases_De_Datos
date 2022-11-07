@@ -1,0 +1,15 @@
+Crear un procedimiento que me permita modificar la magnitud del zoológico ingresando su id.
+DELIMITER $$
+CREATE PROCEDURE mod_mag (IN id_zoo INT, IN magnitud INT)
+BEGIN
+UPDATE zoologico SET TAMANO = magnitud WHERE ID_ZOOLOGICO = id_zoo;
+END $$
+
+$$ CALL mod_mag(2,300) $$
+
+
+Crea un trigger que almacene la información con el día en que se eliminó una especie dentro de una tabla llamada animales extintos.
+
+CREATE TRIGGER animal_extinto BEFORE DELETE ON especie 
+FOR EACH ROW INSERT INTO animales_extintos (ID_ESPECIE,ID_EXTINCION,NOMBRE_COMUN,NOMBRE_CIENTIFICO,FAMILIA,PAIS_ORIGEN,FECHA_EXTINCION)
+VALUES(OLD.ID_ESPECIE,OLD.ID_EXTINCION,OLD.NOMBRE_COMUN,OLD.NOMBRE_CIENTIFICO,OLD.FAMILIA,OLD.PAIS_ORIGEN,NOW());
