@@ -1,0 +1,48 @@
+1.	Elabora el procedimiento almacenado que muestre los registros de X producto.
+
+DELIMITER $$
+CREATE PROCEDURE mostrar_registro(IN prod varchar(30))
+BEGIN
+select *from tienda where producto=prod;
+END$$
+
+$$ CALL mostrar_registro("Semilla A") $$
+
+
+Elabora el procedimiento almacenado que calcule en una variable “desc” el monto a pagar 
+por un descuento del X% de un producto determinado. 
+(x lo ingresa el usuario).
+
+DELIMITER $$
+create procedure descuentos(IN prod varchar(30), IN porcentaje float(10,2), OUT descuento float(10,2))
+BEGIN
+select (venta-(porcentaje/100*venta)) INTO descuento from tienda where producto=prod;
+END $$
+
+$$ call descuentos(semilla D,10,@desc) $$
+select @desc as "Descuento";
+$$
+
+
+
+CREATE TRIGGER descontinuados BEFORE DELETE ON tienda 
+FOR EACH ROW INSERT INTO productos_descontinuados(producto,compra,venta,fecha_de_eliminacion)
+VALUES(OLD.producto,OLD.compra,OLD.venta,now());
+
+Elabora un disparador que generé un registro de los precios de un producto cada que se actualiza la compra de un registro, 
+deberá almacenar el dato de producto, compra anterior, y compra nueva.
+
+CREATE TRIGGER actualizacion AFTER UPDATE ON tienda 
+FOR EACH ROW INSERT INTO actualizacion_compra(producto,compra_anterior)
+VALUES(OLD.producto,OLD.compra);
+
+CREATE TRIGGER actualizacion2 BEFORE UPDATE ON tienda 
+FOR EACH ROW INSERT INTO actualizacion_compra(producto,compra_nueva)
+VALUES(OLD.producto,NEW.compra);
+
+update tienda set compra=500 where producto="Carretillas";
+
+3.	Elabora el procedimiento almacenado que indique el acumulado de ganancia de la venta de X producto. (x lo ingresa el usuario).
+
+create procedure 
+

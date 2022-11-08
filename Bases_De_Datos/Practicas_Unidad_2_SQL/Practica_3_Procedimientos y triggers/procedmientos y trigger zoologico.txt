@@ -1,3 +1,16 @@
+CREACION DE LA TABLA
+CREATE TABLE `animales_extintos` (
+  `ID_ESPECIE` int(11) NOT NULL,
+  `ID_EXTINCION` int(11) NOT NULL,
+  `NOMBRE_COMUN` varchar(30) NOT NULL,
+  `NOMBRE_CIENTIFICO` varchar(30) NOT NULL,
+  `FAMILIA` varchar(30) NOT NULL,
+  `PAIS_ORIGEN` varchar(30) NOT NULL,
+  `FECHA_EXTINCION` date NOT NULL
+)
+
+
+
 Crear un procedimiento que me permita modificar la magnitud del zoológico ingresando su id.
 DELIMITER $$
 CREATE PROCEDURE mod_mag (IN id_zoo INT, IN magnitud INT)
